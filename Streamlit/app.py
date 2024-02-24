@@ -1,14 +1,6 @@
-import time
 import numpy as np
-from PIL import Image
 import streamlit as st
-from dictionary import biome
-import base64
 
-def process_file(uploaded_file):
-    image = Image.open(uploaded_file)
-    image = image.resize((256, 256))
-    return np.array(image)
 
 def main():
     st.set_page_config(
