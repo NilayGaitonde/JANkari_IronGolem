@@ -14,7 +14,7 @@ import base64
 @st.cache_resource(ttl=3600)
 
 def load_plant_disease_model():
-    detector = hub.load("/kaggle/input/test/tensorflow2/private/1")
+    detector = hub.load("./assets/detector_ssd_mobilenet")
     return load_model("./assets/resnet_animal_v1.h5"),detector
 
 def autoplay_audio(file_path: str):
@@ -79,7 +79,7 @@ def main():
         image = st.camera_input("Capture image")
         if image is not None:
             image = Image.open(image)
-            label,prediction_write_up = process_image(model, image)
+            label,prediction_write_up = process_image(model,detector, image)
             st.write(prediction_write_up)
             
     elif option == 'Try a Demo (Lion)':
@@ -91,7 +91,7 @@ def main():
         # with st.spinner('loading prediction'):
         #     time.sleep(0.8)
         # st.write("#### Prediction:")
-        label,prediction_write_up = process_image(model, image)
+        label,prediction_write_up = process_image(model, detector, image)
         st.write(prediction_write_up)
 
 

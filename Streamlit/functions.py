@@ -1,3 +1,10 @@
+import numpy as np
+import tensorflow_hub as hub
+import matplotlib.pyplot as plt
+import tensorflow as tf
+import cv2
+from PIL import Image
+
 def crop_resize_image(img):
 #     print(img.shape)
     
