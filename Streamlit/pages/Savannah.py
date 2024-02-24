@@ -1,14 +1,21 @@
 import streamlit as st
 import numpy as np
+import tensorflow_hub as hub
+import matplotlib.pyplot as plt
+import tensorflow as tf
+import cv2
 from PIL import Image
 from app import process_file
 from dictionary import Savannah,code_to_label
+from functions import crop_resize_image,process_image_based_on_detection,process_input_for_detection
 from keras.api._v2.keras.models import load_model
 import base64
 
 @st.cache_resource(ttl=3600)
+
 def load_plant_disease_model():
-    return load_model("./assets/resnet_animal_v1.h5")
+    detector = hub.load("/kaggle/input/test/tensorflow2/private/1")
+    return load_model("./assets/resnet_animal_v1.h5"),detector
 
 def autoplay_audio(file_path: str):
     with open(file_path, "rb") as f:
@@ -24,13 +31,17 @@ def autoplay_audio(file_path: str):
             unsafe_allow_html=True,
         )
 
-def process_image(model, image):
+def process_image(model,detector, image,):
     """
     returns a string that needs to be written using the streamlit write function
     """
-    image = image.resize((256, 256))
-    image = np.array(image)
-    confidences = model.predict(image[np.newaxis, ...])
+    img_np, img_tensor = process_input_for_detection(image)
+    output_detector = detector(img_tensor)
+    crop_img_np = process_image_based_on_detection(output_detector, img_np)
+
+    # image = image.resize((256, 256))
+    # image = np.array(image)
+    confidences = model.predict(crop_img_np[np.newaxis, ...])
     class_pred =  np.argmax(confidences)
     label = code_to_label[class_pred]
     
@@ -61,7 +72,7 @@ def main():
 
     st.title('Savannah')
     
-    model = load_plant_disease_model()
+    model,detector = load_plant_disease_model()
 
     option = st.selectbox("Select an option:", ("SenView","Try a Demo (Lion)", "Try a Demo (Deer)"))
     if option == 'SenView':
