@@ -38,7 +38,7 @@ def main():
         st.write("Upload a picture of your plant and let SenView identify it for you. Once the plant is identified, SenView will detect if a lion or hyena is present in the image.")
         demo =  st.text_input('Enter True or false')
         if demo == 'True':
-            autoplay_audio('./thunder.mp3')
+            autoplay_audio('./assets/thunder.mp3')
         else:
             st.write('No audio file found')
         
