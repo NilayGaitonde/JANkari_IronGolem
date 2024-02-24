@@ -1,5 +1,6 @@
 import streamlit as st
 from app import process_file
+from dictionary import Savannah
 import base64
 
 def autoplay_audio(file_path: str):
@@ -36,8 +37,8 @@ def main():
             st.image(image, caption='Uploaded Image.', use_column_width=True)
     elif option == 'Try a Demo':
         st.write("Upload a picture of your plant and let SenView identify it for you. Once the plant is identified, SenView will detect if a lion or hyena is present in the image.")
-        demo =  st.text_input('Enter True or false')
-        if demo == 'True':
+        demo =  st.text_input('Enter Detection')
+        if demo in Savannah:
             autoplay_audio('./thunder.mp3')
         else:
             st.write('No audio file found')
