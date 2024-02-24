@@ -102,3 +102,8 @@ Savannah = {
     'lion': 'Lion  Detected, Security protocols engaged: Audio Detterent playing...',
     'Hyena': 'Hyena Detected Security protocols engaged: Audio Detterent playing...',
 }
+
+Woodlands = {
+    'wolf': 'Wolf Detected, Security protocols engaged: Audio Detterent playing...',
+    'fox': 'Fox Detected, Security protocols engaged: Audio Detterent playing...',
+}
