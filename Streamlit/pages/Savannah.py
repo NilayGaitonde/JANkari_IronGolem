@@ -63,7 +63,7 @@ def main():
     
     model = load_plant_disease_model()
 
-    option = st.selectbox("Select an option:", ("SenView","Try a Demo"))
+    option = st.selectbox("Select an option:", ("SenView","Try a Demo (Lion)", "Try a Demo (Deer)"))
     if option == 'SenView':
         image = st.camera_input("Capture image")
         if image is not None:
@@ -71,10 +71,24 @@ def main():
             label,prediction_write_up = process_image(model, image)
             st.write(prediction_write_up)
             
-    elif option == 'Try a Demo':
+    elif option == 'Try a Demo (Lion)':
         st.write("Upload a picture of your plant and let SenView identify it for you. Once the plant is identified, SenView will detect if a lion or hyena is present in the image.")
         image = (Image.open("./assets/lion.jpg"))
         st.write("Demo image: Lion")
+        st.image(image)
+        
+        # with st.spinner('loading prediction'):
+        #     time.sleep(0.8)
+        # st.write("#### Prediction:")
+        label,prediction_write_up = process_image(model, image)
+        st.write(prediction_write_up)
+
+
+        
+    elif option == 'Try a Demo (Deer)':
+        st.write("Upload a picture of your plant and let SenView identify it for you. Once the plant is identified, SenView will detect if a lion or hyena is present in the image.")
+        image = (Image.open("./assets/deer.jpg"))
+        st.write("Demo image: Deer")
         st.image(image)
         
         # with st.spinner('loading prediction'):
@@ -89,6 +103,12 @@ def main():
         
     else:
         st.write("Please select an option")
+
+
+
+        
+ 
+    
 
 
 
