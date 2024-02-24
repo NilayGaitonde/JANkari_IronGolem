@@ -41,7 +41,7 @@ def process_image(model, image):
         # prediction_write_up += f"**_{label}_** predicted with a confidence of {np.max(confidences) * 100:.2f}%  \n"
         prediction_write_up += f"&nbsp;   \n"
         prediction_write_up += Woodlands[label]
-        autoplay_audio('./assets/thunder.mp3')
+        autoplay_audio('./assets/airhorn.mp3')
     else:
         prediction_write_up = ""
         # prediction_write_up += f"**_{label}_** predicted with a confidence of {np.max(confidences) * 100:.2f}%  \n"
@@ -88,7 +88,7 @@ def main():
     elif option == 'Try a Demo (Rabbit)':
         st.write("Upload a picture of your plant and let SenView identify it for you. Once the plant is identified, SenView will detect if a lion or hyena is present in the image.")
         image = (Image.open("./assets/rabbit.jpg"))
-        st.write("Demo image: Deer")
+        st.write("Demo image: Rabbit")
         st.image(image)
         
         # with st.spinner('loading prediction'):
