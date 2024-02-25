@@ -3,7 +3,7 @@ import base64
 import numpy as np
 import streamlit as st 
 import tensorflow as tf
-from dictionary import code_to_label, Savannah, Woodlands,animal_dict
+from dictionary import code_to_label, animal_dict
 
 
 def crop_resize_image(img):
@@ -119,6 +119,24 @@ def analyze_the_taken_image(
     return code_to_label[class_pred]
 
 
+def analyze_the_taken_image_wo_detector(
+        image, classifier
+):
+    """
+    this returns the class label of the image that was inputted into
+    the streamlit UI.
+    """
+    img_np = crop_resize_image(image)
+    img_np = img_np[np.newaxis, ...]
+
+    confidences = classifier.predict(img_np)
+    # print(confidences)
+    class_pred = np.argmax(confidences)
+
+    
+    return code_to_label[class_pred]
+
+
 def autoplay_audio(file_path: str):
     with open(file_path, "rb") as f:
         data = f.read()
@@ -148,6 +166,7 @@ def class_label_to_UI(label,rule ={}):
             prediction_write_up = ""
             prediction_write_up += f"&nbsp;   \n"
             prediction_write_up += "Area secured, you are rakshaked!"
+        return prediction_write_up
     else:
         if label in rule:
             prediction_write_up = ""
@@ -155,7 +174,7 @@ def class_label_to_UI(label,rule ={}):
             prediction_write_up += rule[label]
             audio_path = rule['audio']
             autoplay_audio(audio_path)
-        
+
         else:
             prediction_write_up = ""
             prediction_write_up += f"&nbsp;   \n"

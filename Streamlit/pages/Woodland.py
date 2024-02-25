@@ -4,33 +4,19 @@ import numpy as np
 import streamlit as st
 import tensorflow as tf
 import tensorflow_hub as hub
-from functions import (
-    class_label_to_UI,
-    analyze_the_taken_image
-)
-from dictionary import  Woodlands
-
-
-@st.cache_resource(ttl=3600)
-def load_detector():
-    return hub.load("./assets/detector_ssd_mobilenet")
-
-
-@st.cache_resource(ttl=3600)
-def load_classifier():
-    return tf.keras.models.load_model("./assets/resnet_animal_v1.h5")
+from dictionary import Woodlands
+from app import load_detector, load_classifier
+from functions import class_label_to_UI, analyze_the_taken_image
 
 
 def main():
     st.set_page_config(
-        page_title="Savannah", layout="wide", initial_sidebar_state="auto"
+        page_title="Woodland", layout="wide", initial_sidebar_state="auto"
     )
-    st.title("Savannah")
+    st.title("Woodlands")
 
-
-    # TODO: Implement threading for these two
-    detector = load_detector()
     classifier = load_classifier()
+    detector = load_detector()
 
     option = st.selectbox(
         "Select an option:", ("SenView", "Try a Demo (Wolf)", "Try a Demo (Rabbit)")
@@ -38,24 +24,33 @@ def main():
     # configuring what happens after selecting an option
     if option == "SenView":
         image = st.camera_input("Capture image")
-        
+
         if image is not None:
-            image = cv2.imdecode(np.frombuffer(image.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
-            label = analyze_the_taken_image(image, classifier, detector)
-            prediction_write_up = class_label_to_UI(label,Woodlands)
-            
+            image = cv2.imdecode(
+                np.frombuffer(image.read(), dtype=np.uint8), cv2.IMREAD_COLOR
+            )
+
+            with st.spinner("Analyzing the image"):
+                label = analyze_the_taken_image(image, classifier, detector)
+
+            print(label)
+            prediction_write_up = class_label_to_UI(label, Woodlands)
+
             st.write(prediction_write_up)
 
     elif option == "Try a Demo (Wolf)":
         image = cv2.imread("./assets/wolf.jpg")
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        
+
         st.write("Demo image: Wolf")
         st.image(image)
 
-        label = analyze_the_taken_image(image, classifier, detector)
-        prediction_write_up = class_label_to_UI(label,Woodlands)
-            
+        with st.spinner("Analyzing the image"):
+            label = analyze_the_taken_image(image, classifier, detector)
+
+        print(label)
+        prediction_write_up = class_label_to_UI(label, Woodlands)
+
         st.write(prediction_write_up)
 
     elif option == "Try a Demo (Rabbit)":
@@ -64,14 +59,18 @@ def main():
 
         st.write("Demo image: Rabbit")
         st.image(image)
-        
-        label = analyze_the_taken_image(image, classifier, detector)
-        prediction_write_up = class_label_to_UI(label,Woodlands)
-            
+
+        with st.spinner("Analyzing the image"):
+            label = analyze_the_taken_image(image, classifier, detector)
+
+        print(label)
+        prediction_write_up = class_label_to_UI(label, Woodlands)
+
         st.write(prediction_write_up)
 
     else:
         st.write("Select an option")
+
 
 if __name__ == "__main__":
     main()

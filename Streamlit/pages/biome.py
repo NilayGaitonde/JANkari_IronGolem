@@ -1,24 +1,13 @@
-import os
 import cv2
 import numpy as np
 import streamlit as st
-import tensorflow as tf
-import tensorflow_hub as hub
 from functions import (
     class_label_to_UI,
-    analyze_the_taken_image
+    analyze_the_taken_image,
+    analyze_the_taken_image_wo_detector
 )
 from dictionary import animal_dict
-
-
-@st.cache_resource(ttl=3600)
-def load_detector():
-    return hub.load("./assets/detector_ssd_mobilenet")
-
-
-@st.cache_resource(ttl=3600)
-def load_classifier():
-    return tf.keras.models.load_model("./assets/resnet_animal_v1.h5")
+from app import load_detector, load_classifier
 
 
 def main():
@@ -27,21 +16,23 @@ def main():
     )
     st.title("Biome")
 
-
-    # TODO: Implement threading for these two
-    detector = load_detector()
-    classifier = load_classifier()
-
     option = st.selectbox(
-        "Select an option:", ("SenView", "Upload a file")
+        "Select an option:", ("SenView", "Upload a file", "Try a Demo (Deer)")
+        # "Select an option:", ("SenView", "Upload a file")
     )
+    
+    classifier = load_classifier()
+    detector = load_detector()
+
     # configuring what happens after selecting an option
     if option == "SenView":
         image = st.camera_input("Capture image")
         
         if image is not None:
             image = cv2.imdecode(np.frombuffer(image.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
-            label = analyze_the_taken_image(image, classifier, detector)
+            
+            with st.spinner('Analyzing the image'):
+                label = analyze_the_taken_image(image, classifier, detector)
             prediction_write_up = class_label_to_UI(label)
             
             st.write(prediction_write_up)
@@ -50,20 +41,26 @@ def main():
         uploaded_file = st.file_uploader("Choose a file", type=["jpg", "jpeg", "png"])
         if uploaded_file is not None:
             image = cv2.imdecode(np.frombuffer(uploaded_file.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
-            label = analyze_the_taken_image(image, classifier, detector)
             st.image(image)
-            prediction_write_up = class_label_to_UI(label,rule=animal_dict)
             
+            with st.spinner('Analyzing the image'):
+                label = analyze_the_taken_image_wo_detector(image, classifier)
+                
+            prediction_write_up = class_label_to_UI(label, rule=animal_dict)
+            print(prediction_write_up)
             st.write(prediction_write_up)
 
     elif option == "Try a Demo (Deer)":
-        image = cv2.imread("./assets/deer.jpg")
+        image = cv2.imread("./assets/dolphin.jpg")
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         st.write("Demo image: Deer")
         st.image(image)
         
-        label = analyze_the_taken_image(image, classifier, detector)
+        with st.spinner('Analyzing the image'):
+            label = analyze_the_taken_image_wo_detector(image, classifier)
+        
+        print(label)
         prediction_write_up = class_label_to_UI(label)
             
         st.write(prediction_write_up)

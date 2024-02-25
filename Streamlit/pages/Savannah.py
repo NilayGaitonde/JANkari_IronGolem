@@ -9,16 +9,7 @@ from functions import (
     analyze_the_taken_image
 )
 from dictionary import Savannah
-
-
-@st.cache_resource(ttl=3600)
-def load_detector():
-    return hub.load("./assets/detector_ssd_mobilenet")
-
-
-@st.cache_resource(ttl=3600)
-def load_classifier():
-    return tf.keras.models.load_model("./assets/resnet_animal_v1.h5")
+from app import load_detector, load_classifier
 
 
 def main():
@@ -27,21 +18,23 @@ def main():
     )
     st.title("Savannah")
 
-
-    # TODO: Implement threading for these two
-    detector = load_detector()
-    classifier = load_classifier()
-
     option = st.selectbox(
         "Select an option:", ("SenView", "Try a Demo (Lion)", "Try a Demo (Deer)")
     )
+
+    classifier = load_classifier()
+    detector = load_detector()
+
     # configuring what happens after selecting an option
     if option == "SenView":
         image = st.camera_input("Capture image")
         
         if image is not None:
             image = cv2.imdecode(np.frombuffer(image.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
-            label = analyze_the_taken_image(image, classifier, detector)
+            with st.spinner("Analyzing the image"):
+                label = analyze_the_taken_image(image, classifier, detector)
+            
+            print(label)
             prediction_write_up = class_label_to_UI(label,Savannah)
             
             st.write(prediction_write_up)
@@ -53,7 +46,10 @@ def main():
         st.write("Demo image: Lion")
         st.image(image)
 
-        label = analyze_the_taken_image(image, classifier, detector)
+        with st.spinner("Analyzing the image"):
+            label = analyze_the_taken_image(image, classifier, detector)
+        print(label)
+        
         prediction_write_up = class_label_to_UI(label,Savannah)
             
         st.write(prediction_write_up)
@@ -65,7 +61,9 @@ def main():
         st.write("Demo image: Deer")
         st.image(image)
         
-        label = analyze_the_taken_image(image, classifier, detector)
+        with st.spinner("Analyzing the image"):
+            label = analyze_the_taken_image(image, classifier, detector)
+        print(label)
         prediction_write_up = class_label_to_UI(label,Savannah)
             
         st.write(prediction_write_up)
