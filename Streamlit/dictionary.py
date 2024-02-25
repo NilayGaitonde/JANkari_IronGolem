@@ -101,9 +101,31 @@ code_to_label = {0: 'beetle',
 Savannah = {
     'lion': 'Lion  Detected, Security protocols engaged: Audio Detterent playing...',
     'Hyena': 'Hyena Detected Security protocols engaged: Audio Detterent playing...',
+    'audio':"./assets/thunder.mp3",
 }
 
 Woodlands = {
     'wolf': 'Wolf Detected, Security protocols engaged: Audio Detterent playing...',
     'fox': 'Fox Detected, Security protocols engaged: Audio Detterent playing...',
+    'audio':"./assets/thunder.mp3",
+}
+
+animal_dict = {
+    "Predators": [
+        "Badger", "Bat", "Bear", "Boar", "Cat", "Chimpanzee", "Cockroach", "Coyote", 
+        "Crow", "Dog", "Eagle", "Fox", "Gorilla", "Hedgehog", "Hippopotamus", 
+        "Hornbill", "Horse", "Hummingbird", "Hyena", "Jellyfish", "Kangaroo", 
+        "Leopard", "Lion", "Lizard", "Lobster", "Mosquito", "Moth", "Otter", "Owl", 
+        "Ox", "Panda", "Parrot", "Penguin", "Pig", "Raccoon", "Rat", "Reindeer", 
+        "Rhinoceros", "Shark", "Snake", "Sparrow", "Squid", "Tiger", "Wolf", 
+        "Woodpecker", "Zebra"
+    ],
+    "Prey": [
+        "Antelope", "Bee", "Beetle", "Butterfly", "Caterpillar", "Cow", "Crab", 
+        "Deer", "Dolphin", "Dragonfly", "Duck", "Flamingo", "Fly", "Goat", 
+        "Goldfish", "Goose", "Grasshopper", "Hamster", "Hare", "Ladybugs", 
+        "Mouse", "Octopus", "Okapi", "Oyster", "Pelecaniformes", "Pigeon", 
+        "Porcupine", "Possum", "Seal", "Sandpiper", "Seahorse", "Squirrel", 
+        "Starfish", "Turkey", "Turtle"
+    ]
 }

@@ -8,7 +8,7 @@ from functions import (
     class_label_to_UI,
     analyze_the_taken_image
 )
-from dictionary import animal_dict
+from dictionary import  Woodlands
 
 
 @st.cache_resource(ttl=3600)
@@ -33,7 +33,7 @@ def main():
     classifier = load_classifier()
 
     option = st.selectbox(
-        "Select an option:", ("SenView", "Upload a file")
+        "Select an option:", ("SenView", "Try a Demo (Wolf)", "Try a Demo (Rabbit)")
     )
     # configuring what happens after selecting an option
     if option == "SenView":
@@ -42,28 +42,31 @@ def main():
         if image is not None:
             image = cv2.imdecode(np.frombuffer(image.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
             label = analyze_the_taken_image(image, classifier, detector)
-            prediction_write_up = class_label_to_UI(label)
+            prediction_write_up = class_label_to_UI(label,Woodlands)
             
             st.write(prediction_write_up)
 
-    elif option == "Upload a file":
-        uploaded_file = st.file_uploader("Choose a file", type=["jpg", "jpeg", "png"])
-        if uploaded_file is not None:
-            image = cv2.imdecode(np.frombuffer(uploaded_file.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
-            label = analyze_the_taken_image(image, classifier, detector)
-            prediction_write_up = class_label_to_UI(label,rule=animal_dict)
-            
-            st.write(prediction_write_up)
+    elif option == "Try a Demo (Wolf)":
+        image = cv2.imread("./assets/wolf.jpg")
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        
+        st.write("Demo image: Wolf")
+        st.image(image)
 
-    elif option == "Try a Demo (Deer)":
-        image = cv2.imread("./assets/deer.jpg")
+        label = analyze_the_taken_image(image, classifier, detector)
+        prediction_write_up = class_label_to_UI(label,Woodlands)
+            
+        st.write(prediction_write_up)
+
+    elif option == "Try a Demo (Rabbit)":
+        image = cv2.imread("./assets/rabbit.jpg")
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-        st.write("Demo image: Deer")
+        st.write("Demo image: Rabbit")
         st.image(image)
         
         label = analyze_the_taken_image(image, classifier, detector)
-        prediction_write_up = class_label_to_UI(label)
+        prediction_write_up = class_label_to_UI(label,Woodlands)
             
         st.write(prediction_write_up)
 

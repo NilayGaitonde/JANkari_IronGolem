@@ -134,13 +134,13 @@ def autoplay_audio(file_path: str):
         )
 
 
-def class_label_to_UI(label):
-    if label in Savannah:
+def class_label_to_UI(label,rule ={}):
+    if label in rule:
         prediction_write_up = ""
         prediction_write_up += f"&nbsp;   \n"
-        prediction_write_up += Savannah[label]
-        
-        autoplay_audio("./assets/thunder.mp3")
+        prediction_write_up += rule[label]
+        audio_path = rule['audio']
+        autoplay_audio(audio_path)
     
     else:
         prediction_write_up = ""

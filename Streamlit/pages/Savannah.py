@@ -8,7 +8,7 @@ from functions import (
     class_label_to_UI,
     analyze_the_taken_image
 )
-from dictionary import animal_dict
+from dictionary import Savannah
 
 
 @st.cache_resource(ttl=3600)
@@ -33,7 +33,7 @@ def main():
     classifier = load_classifier()
 
     option = st.selectbox(
-        "Select an option:", ("SenView", "Upload a file")
+        "Select an option:", ("SenView", "Try a Demo (Lion)", "Try a Demo (Deer)")
     )
     # configuring what happens after selecting an option
     if option == "SenView":
@@ -42,18 +42,21 @@ def main():
         if image is not None:
             image = cv2.imdecode(np.frombuffer(image.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
             label = analyze_the_taken_image(image, classifier, detector)
-            prediction_write_up = class_label_to_UI(label)
+            prediction_write_up = class_label_to_UI(label,Savannah)
             
             st.write(prediction_write_up)
 
-    elif option == "Upload a file":
-        uploaded_file = st.file_uploader("Choose a file", type=["jpg", "jpeg", "png"])
-        if uploaded_file is not None:
-            image = cv2.imdecode(np.frombuffer(uploaded_file.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
-            label = analyze_the_taken_image(image, classifier, detector)
-            prediction_write_up = class_label_to_UI(label,rule=animal_dict)
+    elif option == "Try a Demo (Lion)":
+        image = cv2.imread("./assets/lion.jpg")
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        
+        st.write("Demo image: Lion")
+        st.image(image)
+
+        label = analyze_the_taken_image(image, classifier, detector)
+        prediction_write_up = class_label_to_UI(label,Savannah)
             
-            st.write(prediction_write_up)
+        st.write(prediction_write_up)
 
     elif option == "Try a Demo (Deer)":
         image = cv2.imread("./assets/deer.jpg")
@@ -63,7 +66,7 @@ def main():
         st.image(image)
         
         label = analyze_the_taken_image(image, classifier, detector)
-        prediction_write_up = class_label_to_UI(label)
+        prediction_write_up = class_label_to_UI(label,Savannah)
             
         st.write(prediction_write_up)
 
