@@ -111,21 +111,22 @@ Woodlands = {
 }
 
 animal_dict = {
-    "Predators": [
-        "Badger", "Bat", "Bear", "Boar", "Cat", "Chimpanzee", "Cockroach", "Coyote", 
-        "Crow", "Dog", "Eagle", "Fox", "Gorilla", "Hedgehog", "Hippopotamus", 
-        "Hornbill", "Horse", "Hummingbird", "Hyena", "Jellyfish", "Kangaroo", 
-        "Leopard", "Lion", "Lizard", "Lobster", "Mosquito", "Moth", "Otter", "Owl", 
-        "Ox", "Panda", "Parrot", "Penguin", "Pig", "Raccoon", "Rat", "Reindeer", 
-        "Rhinoceros", "Shark", "Snake", "Sparrow", "Squid", "Tiger", "Wolf", 
-        "Woodpecker", "Zebra"
+    "predators": [
+        "badger", "bat", "bear", "boar", "cat", "chimpanzee", "cockroach", "coyote", 
+        "crow", "dog", "eagle", "fox", "gorilla", "hedgehog", "hippopotamus", 
+        "hornbill", "horse", "hummingbird", "hyena", "jellyfish", "kangaroo", 
+        "leopard", "lion", "lizard", "lobster", "mosquito", "moth", "otter", "owl", 
+        "ox", "panda", "parrot", "penguin", "pig", "raccoon", "rat", "reindeer", 
+        "rhinoceros", "shark", "snake", "sparrow", "squid", "tiger", "wolf", 
+        "woodpecker", "zebra"
     ],
-    "Prey": [
-        "Antelope", "Bee", "Beetle", "Butterfly", "Caterpillar", "Cow", "Crab", 
-        "Deer", "Dolphin", "Dragonfly", "Duck", "Flamingo", "Fly", "Goat", 
-        "Goldfish", "Goose", "Grasshopper", "Hamster", "Hare", "Ladybugs", 
-        "Mouse", "Octopus", "Okapi", "Oyster", "Pelecaniformes", "Pigeon", 
-        "Porcupine", "Possum", "Seal", "Sandpiper", "Seahorse", "Squirrel", 
-        "Starfish", "Turkey", "Turtle"
+    "prey": [
+        "antelope", "bee", "beetle", "butterfly", "caterpillar", "cow", "crab", 
+        "deer", "dolphin", "dragonfly", "duck", "flamingo", "fly", "goat", 
+        "goldfish", "goose", "grasshopper", "hamster", "hare", "ladybugs", 
+        "mouse", "octopus", "okapi", "oyster", "pelecaniformes", "pigeon", 
+        "porcupine", "possum", "seal", "sandpiper", "seahorse", "squirrel", 
+        "starfish", "turkey", "turtle"
     ]
 }
+

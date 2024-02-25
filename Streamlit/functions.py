@@ -3,7 +3,7 @@ import base64
 import numpy as np
 import streamlit as st 
 import tensorflow as tf
-from dictionary import code_to_label, Savannah, Woodlands
+from dictionary import code_to_label, Savannah, Woodlands,animal_dict
 
 
 def crop_resize_image(img):
@@ -135,16 +135,30 @@ def autoplay_audio(file_path: str):
 
 
 def class_label_to_UI(label,rule ={}):
-    if label in rule:
-        prediction_write_up = ""
-        prediction_write_up += f"&nbsp;   \n"
-        prediction_write_up += rule[label]
-        audio_path = rule['audio']
-        autoplay_audio(audio_path)
-    
+    if rule == animal_dict:
+        if label in rule['predators']:
+            st.write("Predator Alert")
+            
+            prediction_write_up = ""
+            prediction_write_up += f"&nbsp;   \n"
+            prediction_write_up += label
+            audio_path = './assets/thunder.mp3'
+            autoplay_audio(audio_path)
+        else:
+            prediction_write_up = ""
+            prediction_write_up += f"&nbsp;   \n"
+            prediction_write_up += "Area secured, you are rakshaked!"
     else:
-        prediction_write_up = ""
-        prediction_write_up += f"&nbsp;   \n"
-        prediction_write_up += "Area secured, you are rakshaked!"
+        if label in rule:
+            prediction_write_up = ""
+            prediction_write_up += f"&nbsp;   \n"
+            prediction_write_up += rule[label]
+            audio_path = rule['audio']
+            autoplay_audio(audio_path)
+        
+        else:
+            prediction_write_up = ""
+            prediction_write_up += f"&nbsp;   \n"
+            prediction_write_up += "Area secured, you are rakshaked!"
 
-    return prediction_write_up
+        return prediction_write_up

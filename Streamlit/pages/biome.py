@@ -25,7 +25,7 @@ def main():
     st.set_page_config(
         page_title="Savannah", layout="wide", initial_sidebar_state="auto"
     )
-    st.title("Savannah")
+    st.title("Biome")
 
 
     # TODO: Implement threading for these two
@@ -51,6 +51,7 @@ def main():
         if uploaded_file is not None:
             image = cv2.imdecode(np.frombuffer(uploaded_file.read(), dtype=np.uint8), cv2.IMREAD_COLOR)
             label = analyze_the_taken_image(image, classifier, detector)
+            st.image(image)
             prediction_write_up = class_label_to_UI(label,rule=animal_dict)
             
             st.write(prediction_write_up)
